@@ -43,7 +43,7 @@ Seguem os componentes que fazem parte da arquitetura e seus papéis.
 
 ## Funcionamento da Infraestrutura
 
-### Banco de Dados (Stateful & Persistente)
+### Banco de Dados (Persistente)
 O PostgreSQL é implantado no namespace desafio-kubernets através de um Deployment com réplica única. O estado dos dados é preservado de forma desacoplada do ciclo de vida dos Pods por meio de um PersistentVolumeClaim (PVC). As credenciais de acesso ficam armazenadas em um Secret e as rotinas de inicialização/tabelas em um ConfigMap. Para garantir que outros componentes encontrem o banco de forma estável mesmo se o Pod for recriado com outro IP, foi exposto o postgres-service (ClusterIP), disponibilizando resolução de nome via DNS interno.
 
 ### API REST (Stateless & Escalável)
@@ -77,7 +77,7 @@ Clone o projeto e entre na pasta raiz:
 
 ``` powershell
 git clone https://github.com/JosephLMedeiros/Desafio-Kubernets.git
-cd desafio-kubernetes
+cd Desafio-Kubernetes
 ```
 ### 3. Subir a infraestrutura
 
