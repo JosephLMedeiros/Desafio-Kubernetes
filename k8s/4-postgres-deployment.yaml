@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres-deployment
-  namespace: desafio-kubernets
+  namespace: desafio-kubernetes
   labels:
-    app.kubernetes.io/part-of: desafio-kubernets
+    app.kubernetes.io/part-of: desafio-kubernetes
     app.kubernetes.io/name: postgres
     app.kubernetes.io/instance: postgres-bd
     app.kubernetes.io/managed-by: kubectl
@@ -17,7 +17,7 @@ spec:
     metadata:
       labels:
         app: postgres
-        app.kubernetes.io/part-of: desafio-kubernets
+        app.kubernetes.io/part-of: desafio-kubernetes
         app.kubernetes.io/name: postgres
         app.kubernetes.io/instance: postgres-bd
         app.kubernetes.io/managed-by: kubectl

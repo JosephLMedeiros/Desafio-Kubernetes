@@ -7,7 +7,7 @@ Este documento reúne a comprovação visual solicitada pelo desafio quanto a: i
 **Objetivo:** Validar que todos os recursos (Pods, Deployments, ReplicaSets, Services e HPA) foram criados corretamente e estão em estado saudável dentro do namespace isolado.
 
 **Comando Executado:**
-- ``kubectl get all -n desafio-kubernets``
+- ``kubectl get all -n desafio-kubernetes``
 <br><br>
 
 ![alt text](imgs/evidenciaInfraestrutura.png)
@@ -18,7 +18,7 @@ Este documento reúne a comprovação visual solicitada pelo desafio quanto a: i
 **Objetivo:** Comprovar que a API PostgREST consegue comunicar com o PostgreSQL através do Service interno (postgres-service) e servir dados recebidos via requisições HTTP.
 
 **Comandos Executados:**
-- ``kubectl port-forward svc/postgrest-service 3000:3000 -n desafio-kubernets``
+- ``kubectl port-forward svc/postgrest-service 3000:3000 -n desafio-kubernetes``
 - ``Invoke-RestMethod -Uri "http://localhost:3000/tarefas"``
 <br><br>
 
@@ -31,7 +31,7 @@ Este documento reúne a comprovação visual solicitada pelo desafio quanto a: i
 
 **Comandos Executados:**
 - ``Invoke-RestMethod -Uri "http://localhost:3000/tarefas" -Method Post -ContentType "application/json" -Body '{"titulo": "Teste de Persistencia PVC"}'``
-- ``kubectl delete pod -l app=postgres -n desafio-kubernets``
+- ``kubectl delete pod -l app=postgres -n desafio-kubernetes``
 - ``Invoke-RestMethod -Uri "http://localhost:3000/tarefas"``
 <br><br>
 
