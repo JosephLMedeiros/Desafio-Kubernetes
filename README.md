@@ -76,7 +76,7 @@ A saída deve exibir o nó (ex.: `docker-desktop`) com o status `Ready`.
 Clone o projeto e entre na pasta raiz:
 
 ``` powershell
-git clone https://github.com/josephroberto/desafio-kubernetes.git
+git clone https://github.com/JosephLMedeiros/Desafio-Kubernets.git
 cd desafio-kubernetes
 ```
 ### 3. Subir a infraestrutura
