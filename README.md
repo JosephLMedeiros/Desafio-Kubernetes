@@ -212,7 +212,7 @@ de réplicas.
 Para remover todos os recursos criados pelo projeto:
 
 ``` powershell
-kubectl delete namespace desafio-kubernets
+kubectl delete namespace desafio-kubernetes
 ```
 
 Isso removerá o Namespace e os recursos associados, incluindo Pods,

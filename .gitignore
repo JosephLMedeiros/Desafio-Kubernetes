@@ -1,3 +1,2 @@
 # Ignorar arquivos de segredos com credenciais reais
 k8s/*secret.yaml
-!k8s/*.secret.yaml.example
