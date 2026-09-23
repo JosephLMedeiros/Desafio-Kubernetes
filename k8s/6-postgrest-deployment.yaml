@@ -28,18 +28,23 @@ spec:
           ports:
             - containerPort: 3000
           env:
-            - name: AUTHENTICATOR_PASSWORD
+            - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
                   name: postgres-secret
-                  key: AUTHENTICATOR_PASSWORD
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
             - name: POSTGRES_DB
               valueFrom:
                 configMapKeyRef:
                   name: postgres-config
                   key: POSTGRES_DB
             - name: PGRST_DB_URI
-              value: "postgres://authenticator:$(AUTHENTICATOR_PASSWORD)@postgres-service:5432/$(POSTGRES_DB)"
+              value: "postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres-service:5432/$(POSTGRES_DB)"
             - name: PGRST_DB_SCHEMA
               value: "public"
             - name: PGRST_DB_ANON_ROLE
