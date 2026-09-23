@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgrest-deployment
+  namespace: desafio-kubernets
+  labels:
+    app.kubernetes.io/part-of: desafio-kubernets
+    app.kubernetes.io/name: postgrest
+    app.kubernetes.io/instance: postgrest-api
+    app.kubernetes.io/managed-by: kubectl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgrest
+  template:
+    metadata:
+      labels:
+        app: postgrest
+        app.kubernetes.io/part-of: desafio-kubernets
+        app.kubernetes.io/name: postgrest
+        app.kubernetes.io/instance: postgrest-api
+        app.kubernetes.io/managed-by: kubectl
+    spec:
+      containers:
+        - name: postgrest
+          image: postgrest/postgrest:v12.2.0
+          ports:
+            - containerPort: 3000
+          env:
+            - name: AUTHENTICATOR_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: AUTHENTICATOR_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: POSTGRES_DB
+            - name: PGRST_DB_URI
+              value: "postgres://authenticator:$(AUTHENTICATOR_PASSWORD)@postgres-service:5432/$(POSTGRES_DB)"
+            - name: PGRST_DB_SCHEMA
+              value: "public"
+            - name: PGRST_DB_ANON_ROLE
+              value: "web_anon"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 15
