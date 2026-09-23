@@ -7,15 +7,15 @@ Este projeto é a solução para um desafio de Kubernetes, onde é implementada 
 ```text
 .
 ├── k8s/                          
-│   ├── 01-namespace.yaml
-│   ├── 02-postgres-configmap.yaml
-│   ├── 03-postgres-secret.yaml
-│   ├── 04-postgres-pvc.yaml
-│   ├── 05-postgres-deployment.yaml
-│   ├── 06-postgres-service.yaml
-│   ├── 07-postgrest-deployment.yaml
-│   ├── 08-postgrest-service.yaml
-│   └── 09-postgrest-hpa.yaml
+│   ├── 0-namespace.yaml
+│   ├── 1-postgres-configmap.yaml
+│   ├── 2-postgres-secret.yaml.example #Apenas um modelo de como fazer seu secret, você deve preencher com suas credenciais
+│   ├── 3-postgres-pvc.yaml
+│   ├── 4-postgres-deployment.yaml
+│   ├── 5-postgres-service.yaml
+│   ├── 6-postgrest-deployment.yaml
+│   ├── 7-postgrest-service.yaml
+│   └── 8-hpa.yaml
 ├── docs/                          
 │   ├── reflexoes-tecnicas.md      
 │   ├── validacoes-e-evidencias.md 
@@ -71,13 +71,17 @@ kubectl get nodes
 
 A saída deve exibir o nó (ex.: `docker-desktop`) com o status `Ready`.
 
-### 2. Clonar o repositório
+### 2. Clonar o repositório e configurar credenciais
 
 Clone o projeto e entre na pasta raiz:
 
 ``` powershell
 git clone https://github.com/JosephLMedeiros/Desafio-Kubernets.git
 cd Desafio-Kubernetes
+```
+Após isso, crie o arquivo de Secret a partir do modelo e configure suas credenciais:
+```
+Copy-Item "k8s/0-postgres-secret.yaml.example" -Destination "k8s/3-postgres-secret.yaml"
 ```
 ### 3. Subir a infraestrutura
 
