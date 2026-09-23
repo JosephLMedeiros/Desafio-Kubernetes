@@ -17,7 +17,7 @@ Este projeto é a solução para um desafio de Kubernetes, onde é implementada 
 │   ├── 7-postgrest-service.yaml
 │   └── 8-hpa.yaml
 ├── docs/                          
-│   ├── reflexoes-tecnicas.md      
+│   ├── reflexoes.md      
 │   ├── validacoes-e-evidencias.md 
 │   └── imgs/                      
 │       ├── evidenciaInfraestrutura.png
@@ -44,7 +44,7 @@ Seguem os componentes que fazem parte da arquitetura e seus papéis.
 ## Funcionamento da Infraestrutura
 
 ### Banco de Dados (Persistente)
-O PostgreSQL é implantado no namespace desafio-kubernets através de um Deployment com réplica única. O estado dos dados é preservado de forma desacoplada do ciclo de vida dos Pods por meio de um PersistentVolumeClaim (PVC). As credenciais de acesso ficam armazenadas em um Secret e as rotinas de inicialização/tabelas em um ConfigMap. Para garantir que outros componentes encontrem o banco de forma estável mesmo se o Pod for recriado com outro IP, foi exposto o postgres-service (ClusterIP), disponibilizando resolução de nome via DNS interno.
+O PostgreSQL é implantado no namespace desafio-kubernetes através de um Deployment com réplica única. O estado dos dados é preservado de forma desacoplada do ciclo de vida dos Pods por meio de um PersistentVolumeClaim (PVC). As credenciais de acesso ficam armazenadas em um Secret e as rotinas de inicialização/tabelas em um ConfigMap. Para garantir que outros componentes encontrem o banco de forma estável mesmo se o Pod for recriado com outro IP, foi exposto o postgres-service (ClusterIP), disponibilizando resolução de nome via DNS interno.
 
 ### API REST (Stateless & Escalável)
 A API PostgREST consulta e disponibiliza os dados do banco em formato JSON via requisições HTTP. Por ser uma aplicação sem estado, a API pode ser escalada em múltiplas réplicas sem riscos de concorrência ou corrupção de dados. O gerenciamento de saúde dos Pods é feito por probes, o livenessProbe reinicia containers em caso de travamento e o readinessProbe garante que o tráfego só seja direcionado a Pods totalmente inicializados.
@@ -76,12 +76,12 @@ A saída deve exibir o nó (ex.: `docker-desktop`) com o status `Ready`.
 Clone o projeto e entre na pasta raiz:
 
 ``` powershell
-git clone https://github.com/JosephLMedeiros/Desafio-Kubernets.git
+git clone https://github.com/JosephLMedeiros/Desafio-Kubernetes.git
 cd Desafio-Kubernetes
 ```
 Após isso, crie o arquivo de Secret a partir do modelo e configure suas credenciais:
 ```
-Copy-Item "k8s/0-postgres-secret.yaml.example" -Destination "k8s/3-postgres-secret.yaml"
+Copy-Item "k8s/2-postgres-secret.yaml.example" -Destination "k8s/2-postgres-secret.yaml"
 ```
 ### 3. Subir a infraestrutura
 
@@ -105,7 +105,7 @@ O Kubernetes irá criar os recursos definidos nos manifestos:
 Verifique o estado dos componentes no namespace:
 
 ``` powershell
-kubectl get all -n desafio-kubernets
+kubectl get all -n desafio-kubernetes
 ```
 
 Os Pods do PostgreSQL e da API PostgREST devem aparecer com status
@@ -117,7 +117,7 @@ Em uma janela do terminal, inicie o redirecionamento de porta para
 acessar o Service da API via `localhost`:
 
 ``` powershell
-kubectl port-forward svc/postgrest-service 3000:3000 -n desafio-kubernets
+kubectl port-forward svc/postgrest-service 3000:3000 -n desafio-kubernetes
 ```
 
 Mantenha esse terminal aberto e utilize outra janela do PowerShell para
@@ -152,13 +152,13 @@ Invoke-RestMethod -Uri "http://localhost:3000/tarefas" -Method Post -ContentType
 #### 2. Delete o Pod do PostgreSQL
 
 ``` powershell
-kubectl delete pod -l app=postgres -n desafio-kubernets
+kubectl delete pod -l app=postgres -n desafio-kubernetes
 ```
 
 #### 3. Verifique a recriação automática do Pod
 
 ``` powershell
-kubectl get pods -n desafio-kubernets
+kubectl get pods -n desafio-kubernetes
 ```
 
 O Deployment deverá criar um novo Pod para substituir o anterior.
@@ -178,14 +178,14 @@ Em uma janela do terminal, acompanhe o comportamento do
 HorizontalPodAutoscaler:
 
 ``` powershell
-kubectl get hpa -n desafio-kubernets -w
+kubectl get hpa -n desafio-kubernetes -w
 ```
 
 Em outra janela, crie um Pod temporário para gerar requisições contínuas
 à API:
 
 ``` powershell
-kubectl run carga-teste --image=curlimages/curl -n desafio-kubernets --rm -it -- sh
+kubectl run carga-teste --image=curlimages/curl -n desafio-kubernetes --rm -it -- sh
 ```
 
 Dentro do Pod, execute:
