@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/instance: postgrest-api
     app.kubernetes.io/managed-by: kubectl
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: postgrest
