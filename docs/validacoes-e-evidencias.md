@@ -19,6 +19,7 @@ Este documento reúne a comprovação visual solicitada pelo desafio quanto a: i
 
 **Comandos Executados:**
 - ``kubectl port-forward svc/postgrest-service 3000:3000 -n desafio-kubernetes``
+- ``Invoke-RestMethod -Uri "http://localhost:3000/tarefas" -Method Post -ContentType "application/json" -Body '{"titulo": "Testar Integracao API e Banco"}'``
 - ``Invoke-RestMethod -Uri "http://localhost:3000/tarefas"``
 <br><br>
 
@@ -30,7 +31,8 @@ Este documento reúne a comprovação visual solicitada pelo desafio quanto a: i
 **Objetivo:** Provar a persistência dos dados mesmo após a exclusão e recriação do Pod do banco de dados.
 
 **Comandos Executados:**
-- ``Invoke-RestMethod -Uri "http://localhost:3000/tarefas" -Method Post -ContentType "application/json" -Body '{"titulo": "Teste de Persistencia PVC"}'``
+- ``Invoke-RestMethod -Uri "http://localhost:3000/tarefas" -Method Post -ContentType "application/json" -Body '{"titulo": "Teste2"}'``
+- ``Invoke-RestMethod -Uri "http://localhost:3000/tarefas"``
 - ``kubectl delete pod -l app=postgres -n desafio-kubernetes``
 - ``Invoke-RestMethod -Uri "http://localhost:3000/tarefas"``
 <br><br>
